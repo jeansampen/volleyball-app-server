@@ -1,38 +1,15 @@
-import sqlite3
-from datetime import datetime
-
+from firebase_controller import get_db_ref
 
 def store_match_into_db(match):
-    conn = sqlite3.connect('volleyball.db')
-    c = conn.cursor()
-    place = match.get('place')
-    date = datetime.strptime(match.get('date'), '%d.%m.%Y-%H:%M')
-    c.execute('INSERT INTO matches(place, date) VALUES (?, ?)', [place, date])
-    conn.commit()
+    db = get_db_ref()
+    db.child('matches').push(match)
     return
 
 
 def get_all_matches_from_db():
-    conn = sqlite3.connect('volleyball.db')
-    c = conn.cursor()
-    return c.execute('SELECT * FROM matches').fetchall()
+    db = get_db_ref()
+    return db.child('matches').get().val()
 
 
 def delete_match_from_db(id):
-    conn = sqlite3.connect('volleyball.db')
-    c = conn.cursor()
-    c.execute('DELETE FROM matches WHERE(id = ?)', [id])
-    conn.commit()
-    return
-
-
-def init_matches():
-    conn = sqlite3.connect('volleyball.db')
-    c = conn.cursor()
-    c.execute('CREATE TABLE matches ('
-              'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-              'place VARCHAR(50),'
-              'date DATETIME'
-              ')')
-
-
+    raise NotImplementedError
