@@ -9,3 +9,8 @@ def get_db_ref():
               }
     firebase = pyrebase.initialize_app(config)
     return firebase.database()
+
+
+def get_all_players():
+    db = get_db_ref()
+    return list(db.child('players').get().val().values())

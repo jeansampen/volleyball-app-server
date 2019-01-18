@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from player_controller import store_player_in_db, get_all_players_from_db, delete_player_from_db
 from match_controller import store_match_into_db, get_all_matches_from_db, delete_match_from_db
-import pyrebase
+from notification_service import send_notification_to_all
 
 app = Flask(__name__)
 CORS(app)
@@ -52,6 +52,11 @@ def store_match():
 def delete_match(id):
     delete_match_from_db(id)
     return "Deleting match with id {}".format(id)
+
+@app.route('/notify')
+def notify():
+    send_notification_to_all()
+    return "notifying all players"
 
 
 if __name__ == '__main__':
