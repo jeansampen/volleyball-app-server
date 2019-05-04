@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from player_controller import store_player_in_db, get_all_players_from_db, delete_player_from_db
-from match_controller import store_match_into_db, get_all_matches_from_db, delete_match_from_db
+from event_controller import store_event_into_db, get_all_events_from_db, delete_event_from_db
 from notification_service import send_notification_to_all
 
 app = Flask(__name__)
@@ -37,21 +37,21 @@ def delete_player(id):
 
 
 # Match API
-@app.route('/match', methods=['GET'])
+@app.route('/event', methods=['GET'])
 def get_matches():
-    return jsonify(get_all_matches_from_db())
+    return jsonify(get_all_events_from_db())
 
 
-@app.route('/match', methods=['POST'])
+@app.route('/event', methods=['POST'])
 def store_match():
-    store_match_into_db(request.get_json())
-    return "Storing the given match"
+    store_event_into_db(request.get_json())
+    return "Storing the given event"
 
 
 @app.route('/delete-match/<int:id>', methods=['DELETE'])
 def delete_match(id):
-    delete_match_from_db(id)
-    return "Deleting match with id {}".format(id)
+    delete_event_from_db(id)
+    return "Deleting event with id {}".format(id)
 
 @app.route('/notify')
 def notify():

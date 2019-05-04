@@ -20,5 +20,5 @@ def send_notification(token, name):
 def send_notification_to_all():
     players = get_all_players()
     for player in players:
-        send_notification(token=player['token'], name=player['name'])
+        send_notification(token=player['fcm_token'], name=player['facebook_name'])
     return
